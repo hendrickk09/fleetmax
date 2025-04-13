@@ -8,6 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+<<<<<<< HEAD
         
         // database/migrations/xxxx_xx_xx_create_drivers_table.php
 
@@ -22,6 +23,16 @@ Schema::create('drivers', function (Blueprint $table) {
     $table->timestamps();
 });
 
+=======
+        Schema::create('drivers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('license_number')->unique();
+            $table->string('phone');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+>>>>>>> 3de785ae189018f88177b44d4d0e77c2b2cfd867
     }
 
     public function down(): void

@@ -7,11 +7,7 @@ use Illuminate\Http\Request;
 
 class DriverController extends Controller
 {
-    public function index()
-    {
-        $drivers = Driver::where('user_id', auth()->id())->get();
-        return view('drivers.index', compact('drivers'));
-    }
+   
 
     public function store(Request $request)
     {
@@ -23,7 +19,7 @@ class DriverController extends Controller
         $driver = new Driver();
         $driver->name = $request->name;
         $driver->license = $request->license;
-        $driver->user_id = auth()->user()->id;
+        $driver->user_id = auth()->id(); // Corrigido para auth()->id()
         $driver->save();
 
         return redirect()->route('drivers.index')->with('success', 'Motorista cadastrado com sucesso.');
@@ -32,19 +28,20 @@ class DriverController extends Controller
     public function update(Request $request, Driver $driver)
     {
         $request->validate([
-            'name' => 'required',
-            'cpf' => 'required|unique:drivers,cpf,' . $driver->id,
-            'cnh' => 'required|unique:drivers,cnh,' . $driver->id,
-            'contact' => 'required',
+            'name' => 'required|string|max:255',
+            'cpf' => 'required|string|max:14|unique:drivers,cpf,' . $driver->id,
+            'cnh' => 'required|string|max:20|unique:drivers,cnh,' . $driver->id,
+            'contact' => 'required|string|max:255',
         ]);
 
         $driver->update($request->all());
-        return redirect()->route('drivers.index');
+
+        return redirect()->route('drivers.index')->with('success', 'Motorista atualizado com sucesso.');
     }
 
     public function destroy(Driver $driver)
     {
         $driver->delete();
-        return redirect()->route('drivers.index');
+        return redirect()->route('drivers.index')->with('success', 'Motorista removido com sucesso.');
     }
 }
