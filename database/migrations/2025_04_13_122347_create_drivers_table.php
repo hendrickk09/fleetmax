@@ -8,20 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        
-        // database/migrations/xxxx_xx_xx_create_drivers_table.php
-
-Schema::create('drivers', function (Blueprint $table) {
-    $table->id();
-    $table->string('name');
-    $table->string('license')->unique();
-    $table->string('cpf')->unique()->nullable();     
-    $table->string('cnh')->unique()->nullable();
-    $table->string('contact')->nullable();
-    $table->foreignId('user_id')->constrained()->onDelete('cascade');
-    $table->timestamps();
-});
-
+        Schema::create('drivers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('license')->unique();
+            $table->string('cpf')->unique();     
+            $table->string('cnh')->unique();
+            $table->string('contact');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     public function down(): void
